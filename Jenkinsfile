@@ -3,7 +3,11 @@ pipeline {
         label 'DockerHost'
     }
     parameters {
-       string(
+	string(
+            name: 'DOCKER_COMPOSE_FILE', 
+            defaultValue: 'arachnicompose/v4/docker-compose.yml', 
+            description: 'Path of the Arachni docker-compose.yaml.')
+        string(
             name: 'DISPATCHER_GRID_HOST', 
             defaultValue: 'default', 
             description: 'Address of the arachni_dispatcher_grid container, listenning on 7331 by default. (A.B.C.D:E)')
@@ -15,6 +19,14 @@ pipeline {
             name: 'URL', 
             defaultValue: 'http://testhtml5.vulnweb.com/', 
             description: 'Url scanned by Arachni')
+	string(
+            name: 'DISPATCHERS', 
+            defaultValue: '4', 
+            description: 'Number of dispatcher created by the docker-compose scale command.')
+        booleanParam(
+            name: 'IMPORT_SCAN', 
+            defaultValue: false , 
+            description: 'Import previous scan.')
 	string(
             name: 'SPAWNS', 
             defaultValue: '1', 
@@ -39,16 +51,32 @@ pipeline {
             name: 'CHECK_SCAN', 
             defaultValue: 'xss*', 
 	    description: 'Checks are system components which perform security checks and log issues.')
-  	booleanParam(
+   booleanParam(
             name: 'PROXY_PLUGIN', 
-            defaultValue: true , 
+            defaultValue: false , 
             description: 'Activate proxy plugin with the rpc client.')
     }
-    stages{
+   stages {
+        stage('SetUpArachni') {
+            steps {
+                sh "./setup.sh ${params.DOCKER_COMPOSE_FILE} ${params.DOCKER_HOST_WebUI} ${params.DISPATCHERS} ${params.IMPORT_SCAN} "
+            }
+        }
 	stage('ScanUrlArachni') {
-             steps {
+            steps {
 		sh "./scan.sh ${params.DISPATCHER_GRID_HOST} ${params.DOCKER_HOST_WebUI} ${params.URL} ${params.SPAWNS} ${params.GRID_MODE} ${params.SCOPE_DIRECTORY_DEPTH_LIMIT} ${params.SCOPE_PAGE_LIMIT} ${params.REPORT_NAME} ${params.CHECK_SCAN} ${params.PROXY_PLUGIN} "
-             }
-         }
+            }
+	}
+	 stage('ImportScanWebUIArachni') {
+            steps {
+		sh "./import.sh ${params.DOCKER_HOST_WebUI} ${params.REPORT_NAME}"
+            }
+	}
+	  stage('PdfArachni') {
+            steps {	 
+                sh "./pdf.sh ${params.DOCKER_HOST_WebUI} ${params.REPORT_NAME}"
+            }
+	}
     }
 }
+
