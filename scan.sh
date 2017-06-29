@@ -9,7 +9,7 @@ if [ "$6" != "inf" ];
 fi
 
 #SCOPE_PAGE_LIMIT option
-if [ "$7" != "inf" ] && [ "$10" = false ]
+if [ "$7" != "inf" ];
         then
               	SCAN_OPTIONS="$SCAN_OPTIONS --scope-page-limit=$7 "
 fi
@@ -19,8 +19,7 @@ if [ "$10" = true ];
         then
 		# To skip crawling and only audit elements discovered by using the proxy
 		# the scope page-limit option is set to '0'.
-		
-       		SCAN_OPTIONS="$SCAN_OPTIONS --plugin 'proxy:bind_address=0.0.0.0' --scope-page-limit=0 "
+       		SCAN_OPTIONS="$SCAN_OPTIONS --plugin=proxy:port=8282,bind_address=127.0.0.1 "
 fi
 
         
