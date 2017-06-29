@@ -39,17 +39,15 @@ pipeline {
             name: 'CHECK_SCAN', 
             defaultValue: 'xss*', 
 	    description: 'Checks are system components which perform security checks and log issues.')
-  booleanParam(
+  	booleanParam(
             name: 'PROXY_PLUGIN', 
             defaultValue: false , 
             description: 'Activate proxy plugin with the rpc client.')
-}
     }
-  	stage('ScanUrlArachni') {
-            steps {
+    stage('ScanUrlArachni') {
+         steps {
 		sh "./scan.sh ${params.DISPATCHER_GRID_HOST} ${params.DOCKER_HOST_WebUI} ${params.URL} ${params.SPAWNS} ${params.GRID_MODE} ${params.SCOPE_DIRECTORY_DEPTH_LIMIT} ${params.SCOPE_PAGE_LIMIT} ${params.REPORT_NAME} ${params.CHECK_SCAN} ${params.PROXY_PLUGIN} "
-            }
-	}
-    }
+         }
+     }
 }
 
