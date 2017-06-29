@@ -14,6 +14,7 @@ if [ "$7" != "inf" ]
         	then
 			echo "SCOPE PAGE LIMIT OPTIONS"
                	# SCAN_OPTIONS="$SCAN_OPTIONS --scope-page-limit=$7 "
+	fi
 	then
 fi
 
