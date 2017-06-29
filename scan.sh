@@ -16,6 +16,7 @@ if [ "$7" != "inf" ]
                	# SCAN_OPTIONS="$SCAN_OPTIONS --scope-page-limit=$7 "
 	fi
 	then
+		echo " "
 fi
 
 #Proxy Plugin Activated 
