@@ -9,10 +9,12 @@ if [ "$6" != "inf" ];
 fi
 
 #SCOPE_PAGE_LIMIT option
-if [ "$7" != "inf" ] && [ "$10" = false ] 
-        then
-		echo "SCOPE PAGE LIMIT OPTIONS"
-               # SCAN_OPTIONS="$SCAN_OPTIONS --scope-page-limit=$7 "
+if [ "$7" != "inf" ]
+	if [ "$10" = false ] 
+        	then
+			echo "SCOPE PAGE LIMIT OPTIONS"
+               	# SCAN_OPTIONS="$SCAN_OPTIONS --scope-page-limit=$7 "
+	then
 fi
 
 #Proxy Plugin Activated 
