@@ -41,7 +41,7 @@ pipeline {
 	    description: 'Checks are system components which perform security checks and log issues.')
   	booleanParam(
             name: 'PROXY_PLUGIN', 
-            defaultValue: false , 
+            defaultValue: true , 
             description: 'Activate proxy plugin with the rpc client.')
     }
     stages{
