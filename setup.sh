@@ -33,7 +33,7 @@ fi
 echo "Arachni is running"
         
 #Set numbers of Arachni agents.
-docker-compose -H $2 -f $1 scale web=1 dispatcher=$3 dispatcher_grid=1
+docker-compose -H $2 -f $1 scale web=1 dispatcher=$3 dispatcher_grid=1 proxy=1
 
 
 
