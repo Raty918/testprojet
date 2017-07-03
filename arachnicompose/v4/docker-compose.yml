@@ -19,3 +19,7 @@ services:
     links: 
       - dispatcher
     command: "--neighbour=dispatcher:7331"
+  proxy:
+    image: arachnirpcdlocal
+    ports:
+      - 8282:8282
