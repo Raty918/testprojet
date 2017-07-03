@@ -21,25 +21,23 @@ if [ "$10" = true ];
 		# the scope page-limit option is set to '0'.
 		
        		SCAN_OPTIONS="$SCAN_OPTIONS --plugin=proxy:port=8282,bind_address=0.0.0.0 "
-fi
-
-        
+fi      
 
 #Scan
-if [ "$10" = false ]
+if [ "$10" = false ];
    	then
 	#Send scan command to the RPC Server
 	if [ "$1" != "default" ]; #DISPATCHER_GRID_HOST not set
         	then
 			( exec "./wait-for-it.sh -t 0 $1" )	
-                	docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $1 $SCAN_OPTIONS"   
+                	docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $1 $SCAN_OPTIONS   
         	else  
                 	add=$(docker -H $2 inspect v4_dispatcher_grid_1 | grep IPAddress | cut -d '"' -f 4):7331
                 	( exec "./wait-for-it.sh -t 0 $add" )	
-	        	docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $add $SCAN_OPTIONS"
+	        	docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $add $SCAN_OPTIONS
 	fi
 	else
                 add=$(docker -H $2 inspect v4_proxy_1 | grep IPAddress | cut -d '"' -f 4):8282
                 ( exec "./wait-for-it.sh -t 0 $add" )	
-	        docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $add $SCAN_OPTIONS"
+	        docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $add $SCAN_OPTIONS
 fi
