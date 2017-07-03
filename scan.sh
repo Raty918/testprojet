@@ -37,7 +37,7 @@ if [ "$10" = false ];
 	        	docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $add $SCAN_OPTIONS
 	fi
 	else
-                add=$(docker -H $2 inspect v4_proxy_1 | grep IPAddress | cut -d '"' -f 4):8282
+                add=$(docker -H $2 inspect v4_proxy_1 | grep IPAddress | cut -d '"' -f 4):7331
                 ( exec "./wait-for-it.sh -t 0 $add" )	
 	        docker -H $2 exec -t v4_web_1 bin/arachni_rpc --dispatcher-url $add $SCAN_OPTIONS
 fi
